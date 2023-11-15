@@ -1,35 +1,35 @@
 #!/bin/bash
 
-# Vérifiez que le script est exécuté en tant que root
+# Check if the script is being run as root
 if [ "$(id -u)" != "0" ]; then
-   echo "Ce script doit être exécuté en tant que root." 1>&2
+   echo "This script must be run as root." 1>&2
    exit 1
 fi
 
-# Demandez le nouveau nom d'hôte
-read -p "Entrez le nouveau nom de la machine : " new_hostname
+# Ask for the new hostname
+read -p "Enter the new hostname for the machine: " new_hostname
 
-# Change le nom de la machine
+# Change the hostname of the machine
 hostnamectl set-hostname $new_hostname
 
-# Met à jour /etc/hosts sans toucher à l'entrée localhost
+# Update /etc/hosts without touching the localhost entry
 sed -i "/127.0.0.1\slocalhost/!s/127\.0\.0\.1\s.*/127.0.0.1\t$new_hostname/g" /etc/hosts
 
-echo "Le nom de la machine a été changé en $new_hostname."
+echo "The machine's hostname has been changed to $new_hostname."
 
-# Libère l'adresse IP actuelle et demande une nouvelle adresse au serveur DHCP
-echo "Libération et renouvellement de l'adresse IP pour enp0s3..."
+# Release the current IP address and request a new one from the DHCP server
+echo "Releasing and renewing the IP address for enp0s3..."
 /usr/sbin/dhclient -r enp0s3
 /usr/sbin/dhclient enp0s3
 
-# Générer un nouvel UUID pour la machine
-echo "Génération d'un nouvel identifiant unique de la machine (UUID)..."
+# Generate a new UUID for the machine
+echo "Generating a new unique identifier for the machine (UUID)..."
 if [ -f /etc/machine-id ]; then
     rm /etc/machine-id
     systemd-machine-id-setup
-    echo "Un nouvel UUID a été généré."
+    echo "A new UUID has been generated."
 else
-    echo "Erreur : le fichier /etc/machine-id n'existe pas."
+    echo "Error: The file /etc/machine-id does not exist."
 fi
 
-echo "Le script a terminé ses tâches."
+echo "The script has completed its tasks."
