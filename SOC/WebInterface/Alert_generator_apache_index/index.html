@@ -2,51 +2,6 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Alert Generation</title>
-    <style>
-        .button {
-            background-color: #007bff;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 12px;
-        }
-        .container {
-            text-align: center;
-            margin-top: 50px;
-        }
-        h2 {
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Alert Generation</h2>
-        <form action="/cgi-bin/CGI_XXSi.sh" method="post">
-            <input type="submit" class="button" value="Alert 1" />
-        </form>
-        <form action="/cgi-bin/CGI_SQLi.sh" method="post">
-            <input type="submit" class="button" value="Alert 2" />
-        </form>
-        <form action="/cgi-bin/CGI_Failed_SSH.sh" method="post">
-            <input type="submit" class="button" value="Alert 3" />
-        </form>
-    </div>
-</body>
-</html>
-
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
     <title>Alert generation</title>
     <style>
         .button {
@@ -69,15 +24,26 @@
         h2 {
             margin-bottom: 20px;
         }
+        #message {
+            margin-top: 20px;
+            color: #d9534f; /* Rouge pour les messages d'alerte */
+        }
     </style>
     <script>
         function generateAlert(scriptName) {
             var xhr = new XMLHttpRequest();
+            var messageDiv = document.getElementById('message'); // Obtenir l'élément pour afficher le message
             xhr.open("POST", "/cgi-bin/" + scriptName, true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert("Generated alert: " + scriptName);
+                if (xhr.readyState == 4) {
+                    if(xhr.status == 200) {
+                        messageDiv.textContent = "Generated alert: " + scriptName.replace('CGI_', '').replace('.sh', '');
+                        messageDiv.style.color = "green"; // Vert si succès
+                    } else {
+                        messageDiv.textContent = "Error generating alert.";
+                        messageDiv.style.color = "red"; // Rouge si erreur
+                    }
                 }
             };
             xhr.send();
@@ -86,10 +52,11 @@
 </head>
 <body>
     <div class="container">
-        <h2>Alert generation</h2>
+        <h2>Génération d'alertes</h2>
         <button class="button" onclick="generateAlert('CGI_XXSi.sh')">XXSi</button>
         <button class="button" onclick="generateAlert('CGI_SQLi.sh')">SQLi</button>
         <button class="button" onclick="generateAlert('CGI_Failed_SSH.sh')">Failed_SSH</button>
+        <div id="message"></div> <!-- Élément pour afficher le message -->
     </div>
 </body>
 </html>
