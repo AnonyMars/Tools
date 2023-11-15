@@ -13,7 +13,7 @@ read -p "Enter the new hostname for the machine: " new_hostname
 hostnamectl set-hostname $new_hostname
 
 # Update /etc/hosts without touching the localhost entry
-sed -i "/127.0.0.1\slocalhost/!s/127\.0\.0\.1\s.*/127.0.0.1\t$new_hostname/g" /etc/hosts
+sed -i "s/127\.0\.1\.1\s.*/127.0.1.1\t$new_hostname/g" /etc/hosts
 
 echo "The machine's hostname has been changed to $new_hostname."
 
