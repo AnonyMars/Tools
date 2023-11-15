@@ -33,3 +33,5 @@ else
 fi
 
 echo "The script has completed its tasks."
+echo "System rebooting..."
+systemctl reboot
