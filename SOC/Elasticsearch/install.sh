@@ -38,7 +38,7 @@ sudo chown -R root:elasticsearch /etc/elasticsearch
 sudo chmod -R 750 /etc/elasticsearch
 sudo find /etc/elasticsearch -type d -exec chmod g+s {} \;
 
-echo 'ES_JAVA_OPTS="-Xms2g -Xmx2g"' | sudo tee -a /etc/default/elasticsearch
+echo 'ES_JAVA_OPTS="-Xms4g -Xmx4g"' | sudo tee -a /etc/default/elasticsearch
 
 echo 'RESTART_ON_UPGRADE=true' | sudo tee -a /etc/default/elasticsearch
 

@@ -3,3 +3,6 @@
 sudo /usr/share/elasticsearch/bin/elasticsearch-keystore show xpack.security.http.ssl.keystore.secure_password
 
 sudo /usr/share/elasticsearch/bin/elasticsearch-keystore show xpack.security.transport.ssl.keystore.secure_password
+
+#Désactivez le swap pour optimiser les performances d'Elastic
+sudo sed -i '/ swap / s/^/#/' /etc/fstab
