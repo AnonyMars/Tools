@@ -32,8 +32,41 @@ sudo apt-get -y install wazuh-indexer
 NODE_NAME=soc1
 
 
-mkdir /etc/wazuh-indexer/certs
-tar -xf ./wazuh-certificates.tar -C /etc/wazuh-indexer/certs/ ./$NODE_NAME.pem ./$NODE_NAME-key.pem ./admin.pem ./admin-key.pem ./root-ca.pem
-chmod 500 /etc/wazuh-indexer/certs
-chmod 400 /etc/wazuh-indexer/certs/*
-chown -R wazuh-indexer:wazuh-indexer /etc/wazuh-indexer/certs
+sudo mkdir /etc/wazuh-indexer/certs
+sudo tar -xf ./wazuh-certificates.tar -C /etc/wazuh-indexer/certs/ ./$NODE_NAME.pem ./$NODE_NAME-key.pem ./admin.pem ./admin-key.pem ./root-ca.pem
+sudo chmod 500 /etc/wazuh-indexer/certs
+sudo chmod 400 /etc/wazuh-indexer/certs/*
+sudo chown -R wazuh-indexer:wazuh-indexer /etc/wazuh-indexer/certs
+
+# Télécharger le fichier modifié depuis GitHub
+#STANDALONE CONFIG FILE
+sudo wget https://raw.githubusercontent.com/AnonyMars/Tools/main/SOC/Wazuh/Indexer/Standalone_version/opensearch.yml -O /tmp/opensearch.yml
+
+# Sauvegarder l'ancien fichier de configuration
+sudo cp /etc/wazuh-indexer/opensearch.yml /etc/wazuh-indexer/opensearch.yml.backup
+
+# Remplacer l'ancien fichier par le nouveau
+sudo mv /tmp/opensearch.yml /etc/wazuh-indexer/opensearch.yml
+
+#Modification de la limitation des ressources system
+sudo cp /usr/lib/systemd/system/wazuh-indexer.service /usr/lib/systemd/system/wazuh-indexer.service.backup
+sudo sed -i '/\[Service\]/a LimitMEMLOCK=infinity' /usr/lib/systemd/system/wazuh-indexer.service
+
+sudo cp /etc/wazuh-indexer/jvm.options /etc/wazuh-indexer/jvm.options.backup
+sudo sed -i 's/-Xms1g/-Xms4g/' /etc/wazuh-indexer/jvm.options
+sudo sed -i 's/-Xmx1g/-Xmx4g/' /etc/wazuh-indexer/jvm.options
+
+
+
+systemctl daemon-reload
+systemctl enable wazuh-indexer
+systemctl start wazuh-indexer
+
+echo 'export PATH="/usr/sbin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+
+/usr/share/wazuh-indexer/bin/indexer-security-init.sh
+
+sudo apt install -y net-tools
+
+sudo netstat -laputen |grep :9
+
