@@ -19,7 +19,7 @@ echo "Lancer votre navigateur avec l'ip de la vm ex : 192.168.0.40"
 
 #TEST après clic alerte
 echo "Après avoir cliqué sur les boutons, vérifier la présence d'alertes"
-echo "sudo cat /var/log/syslog | grep ALERT
+echo "sudo cat /var/log/syslog | grep ALERT"
 
 
 
