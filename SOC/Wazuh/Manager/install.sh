@@ -36,7 +36,8 @@ vim /var/ossec/etc/ossec.conf
 
 #WAZUH RULES CUSTOM
 sudo apt install git -y
-sudo curl -so ~/wazuh_socfortress_rules.sh https://raw.githubusercontent.com/socfortress/Wazuh-Rules/main/wazuh_socfortress_rules.sh && sudo bash ~/wazuh_socfortress_rules.sh
+sudo curl -so ~/wazuh_rules.sh https://raw.githubusercontent.com/AnonyMars/Tools/main/SOC/Wazuh/Manager/wazuh_rules.sh && sudo bash ~/wazuh_socfortress_rules.sh
+
 
 #SUIVRE SUR FICHIER INSTALLATION FILEBEAT
 
