@@ -1,12 +1,12 @@
-network.host: "192.168.0.235"
+network.host: "0.0.0.0"
 node.name: "soc1"
 cluster.initial_master_nodes:
 - "soc1"
 #- "node-2"
 #- "node-3"
 cluster.name: "wazuh-soc-cluster"
-#discovery.seed_hosts:
-#  - "node-1-ip"
+discovery.seed_hosts:
+  - "soc1"
 #  - "node-2-ip"
 #  - "node-3-ip"
 node.max_local_storage_nodes: "1"

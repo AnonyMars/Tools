@@ -10,17 +10,17 @@ fi
 read -p "Enter the new hostname for the machine: " new_hostname
 
 # Change the hostname of the machine
-hostnamectl set-hostname $new_hostname
+sudo hostnamectl set-hostname $new_hostname
 
 # Update /etc/hosts without touching the localhost entry
-sed -i "s/127\.0\.1\.1\s.*/127.0.1.1\t$new_hostname/g" /etc/hosts
+sudo sed -i "s/127\.0\.0\.1\s.*/127.0.0.1\t$new_hostname/g" /etc/hosts
 
 echo "The machine's hostname has been changed to $new_hostname."
 
 # Release the current IP address and request a new one from the DHCP server
-echo "Releasing and renewing the IP address for enp0s3..."
-/usr/sbin/dhclient -r enp0s3
-/usr/sbin/dhclient enp0s3
+sudo echo "Releasing and renewing the IP address for enp0s3..."
+sudo /usr/sbin/dhclient -r enp0s3
+sudo /usr/sbin/dhclient enp0s3
 
 # Generate a new UUID for the machine
 echo "Generating a new unique identifier for the machine (UUID)..."
