@@ -1,6 +1,6 @@
 #!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-PACKETBEAT_YAML="https://raw.githubusercontent.com/socfortress/Wazuh-Rules/main/Packetbeat/packetbeat.yml"
+PACKETBEAT_YAML="https://raw.githubusercontent.com/AnonyMars/Tools/main/SOC/Packetbeat/packetbeat.yml"
 
 logger() {
 
@@ -50,4 +50,3 @@ logger "Installing Packetbeat"
         fi
     fi
     service packetbeat restart
-    logger "Need assistance? Shoot us an email at info@socfortress.co!"
