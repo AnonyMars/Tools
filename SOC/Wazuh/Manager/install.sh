@@ -16,5 +16,27 @@ sudo systemctl start wazuh-manager
 
 sudo systemctl status wazuh-manager
 
+#AJOUT AUTHENTIFICATION AGENT au MANAGER
+#Passer use_password à yes "<use_password>yes</use_password>"
+vim /var/ossec/etc/ossec.conf
+
+echo "password_wazuh" > /var/ossec/etc/authd.pass
+
+chmod 640 /var/ossec/etc/authd.pass
+chown root:wazuh /var/ossec/etc/authd.pass
+
+#Activation vulnerability detector et debian vuln
+#<vulnerability-detector>
+#<enabled>yes</enabled>
+#ET
+#Debian OS vulnerabilities
+#<provider name="debian"
+#       <enabled>yes</enabled>
+vim /var/ossec/etc/ossec.conf
+
+#WAZUH RULES CUSTOM
+sudo apt install git -y
+sudo curl -so ~/wazuh_socfortress_rules.sh https://raw.githubusercontent.com/socfortress/Wazuh-Rules/main/wazuh_socfortress_rules.sh && sudo bash ~/wazuh_socfortress_rules.sh
+
 #SUIVRE SUR FICHIER INSTALLATION FILEBEAT
 

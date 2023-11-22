@@ -1,5 +1,5 @@
 sudo apt-get update
-sudo apt-get install apache2
+sudo apt-get install apache2 -y
 
 sudo a2enmod cgi
 sudo service apache2 restart
@@ -15,7 +15,13 @@ sudo wget https://raw.githubusercontent.com/AnonyMars/Tools/main/SOC/WebInterfac
 sudo chmod +x /usr/lib/cgi-bin/*.sh
 
 sudo systemctl restart apache2
-echo "Lancer votre navigateur avec l'ip de la vm ex : 192.168.0.40"
+
+# Obtenir l'adresse IP par défaut de la machine virtuelle
+ip_vm=$(hostname -I | awk '{print $1}')
+
+# Remplacer l'IP exemple par l'IP réelle dans la chaîne de texte
+echo "Lancer votre navigateur avec l'ip de la vm ex : $ip_vm"
+
 
 #TEST après clic alerte
 echo "Après avoir cliqué sur les boutons, vérifier la présence d'alertes"

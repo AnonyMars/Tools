@@ -6,9 +6,15 @@ sudo echo "deb https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo
 
 sudo apt-get update && sudo apt-get install filebeat -y
 
-sudo systemctl enable filebeat
 
-sudo apt-get -y install filebeat
+
+
+
+sudo wget https://github.com/AnonyMars/Tools/raw/main/SOC/Filebeat/filebeat-oss-7.10.2-amd64.deb
+
+sudo sudo apt install ./filebeat-oss-7.10.2-amd64.deb
+
+sudo systemctl enable filebeat
 
 sudo curl -so /etc/filebeat/filebeat.yml https://packages.wazuh.com/4.6/tpl/wazuh/filebeat/filebeat.yml
 
@@ -49,3 +55,5 @@ chown -R root:root /etc/filebeat/certs
 systemctl daemon-reload
 systemctl enable filebeat
 systemctl start filebeat
+
+filebeat test output
