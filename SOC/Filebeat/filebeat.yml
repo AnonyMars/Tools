@@ -19,7 +19,7 @@ filebeat.modules:
     alerts:
       enabled: true
     archives:
-      enabled: false
+      enabled: true
 
 logging.level: info
 logging.to_files: true

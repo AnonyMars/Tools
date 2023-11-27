@@ -34,10 +34,24 @@ chown root:wazuh /var/ossec/etc/authd.pass
 #       <enabled>yes</enabled>
 vim /var/ossec/etc/ossec.conf
 
+#Activation de l'archivage
+#Passer à yes les valeurs avec des flèches
+<ossec_config>
+  <global>
+    <jsonout_output>yes</jsonout_output>
+    <alerts_log>yes</alerts_log>
+    <logall>yes</logall> <======
+    <logall_json>yes</logall_json> <======
+</ossec_config>
+
 #WAZUH RULES CUSTOM
 sudo apt install git -y
 sudo curl -so ~/wazuh_rules.sh https://raw.githubusercontent.com/AnonyMars/Tools/main/SOC/Wazuh/Manager/wazuh_rules.sh && sudo bash ~/wazuh_socfortress_rules.sh
 
+#Créer l'index d'archivages en l'appelant wazuh-archives-*
+
+#sur l'interface web du wazuh dashboard : Stack management > Index patterns > Create index pattern
+#ATTENTION sélectionner "timestamp" et pas "@timestamp" dans la liste
 
 #SUIVRE SUR FICHIER INSTALLATION FILEBEAT
 

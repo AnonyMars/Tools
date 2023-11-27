@@ -32,11 +32,14 @@ sudo systemctl start wazuh-dashboard
 
 sudo /usr/share/wazuh-indexer/plugins/opensearch-security/tools/wazuh-passwords-tool.sh --change-all 
 .
-#21/11/2023 18:32:06 INFO: The password for user admin is x+OHxFS61Jwj?U?i5xTwQQsSpc9OwRTI
-#21/11/2023 18:32:06 INFO: The password for user kibanaserver is u4Vvo*IQjUh4MgS7cBN*Hf3K*UVfiQQ4
 
-KIB_PASSWORD=u4Vvo*IQjUh4MgS7cBN*Hf3K*UVfiQQ4
+#MDP générés à conserver
 
-echo $KIB_PASSWORD | /usr/share/wazuh-dashboard/bin/opensearch-dashboards-keystore --allow-root add -f --stdin opensearch.password
+#24/11/2023 11:26:54 INFO: The password for user admin is ?FfJ4z5c0atJj7FUJp6j1JWYewXCXPh*
+#24/11/2023 11:26:54 INFO: The password for user logstash is +U*I.Er401iltydEnG5j2D0IlOT4a5tB
+
+
 
 #Connectez vous à https:ip avec compte admin + mdp admin
+
+#Créer une input pour envoyer les logs du Wazuh Manager à Graylog avec comme titre : WAZUH EVENTS TCP
