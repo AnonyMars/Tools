@@ -25,6 +25,7 @@ sudo chmod 400 /etc/grafana/certs/*
 sudo systemctl start grafana-server
 sudo systemctl enable grafana-server
 
+sudo grafana-cli plugins install netsage-sankey-panel
 
 #Aller sur https://votreip:3000
 #login : admin
