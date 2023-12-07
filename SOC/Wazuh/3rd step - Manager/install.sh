@@ -46,12 +46,12 @@ vim /var/ossec/etc/ossec.conf
 
 #WAZUH RULES CUSTOM
 sudo apt install git -y
-sudo curl -so ~/wazuh_rules.sh https://raw.githubusercontent.com/AnonyMars/Tools/main/SOC/Wazuh/Manager/wazuh_rules.sh && sudo bash ~/wazuh_socfortress_rules.sh
+sudo curl -so ~/wazuh_rules.sh https://raw.githubusercontent.com/AnonyMars/Tools/main/SOC/Wazuh/Manager/wazuh_rules.sh && sudo bash ~/wazuh_rules.sh
 
 #Créer l'index d'archivages en l'appelant wazuh-archives-*
 
 #sur l'interface web du wazuh dashboard : Stack management > Index patterns > Create index pattern
 #ATTENTION sélectionner "timestamp" et pas "@timestamp" dans la liste
 
-#SUIVRE SUR FICHIER INSTALLATION FILEBEAT
+
 

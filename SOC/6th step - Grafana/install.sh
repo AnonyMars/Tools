@@ -26,6 +26,7 @@ sudo systemctl start grafana-server
 sudo systemctl enable grafana-server
 
 sudo grafana-cli plugins install netsage-sankey-panel
+sudo grafana-cli plugins install grafana-worldmap-panel
 
 #Aller sur https://votreip:3000
 #login : admin

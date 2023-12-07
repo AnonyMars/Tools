@@ -1,5 +1,5 @@
 sudo apt update && sudo apt upgrade
-sudo apt install apt-transport-https openjdk-11-jre-headless uuid-runtime pwgen dirmngr gnupg wget
+sudo apt install apt-transport-https uuid-runtime pwgen dirmngr gnupg wget -y
 
 #INSTALLATION MONGODB, cette bdd stocke la config de Graylog, pas des logs en eux-mêmes
 sudo apt-get install gnupg
@@ -15,28 +15,45 @@ sudo systemctl --type=service --state=active | grep mongod
 wget https://packages.graylog2.org/repo/packages/graylog-5.2-repository_latest.deb
 sudo dpkg -i graylog-5.2-repository_latest.deb
 sudo apt-get update && sudo apt-get install graylog-server
-sudo apt install graylog-integrations-plugins
 
 #CONFIGURATION HTTPS GRAYLOG => WAZUH INDEXER
 sudo mkdir /etc/graylog/server/certs
-sudo cp -a "/usr/lib/jvm/java-1.11.0-openjdk-amd64/lib/security/cacerts" /etc/graylog/server/certs/cacerts
+sudo cp -a /usr/share/graylog-server/jvm/lib/security/cacerts /etc/graylog/server/certs/cacerts
 sudo cp /etc/wazuh-indexer/certs/root-ca.pem /etc/graylog/server/certs/root-ca.pem
+sudo /usr/share/graylog-server/jvm/bin/keytool -importcert -keystore /etc/graylog/server/certs/cacerts -storepass changeit -alias root_ca -file /etc/graylog/server/certs/root-ca.pem
 
-sudo keytool -importcert -keystore /etc/graylog/server/certs/cacerts -storepass changeit -alias your-alias -file /etc/graylog/server/certs/root-ca.pem
+
+#COMMANDE DEBUG CERTIFICAT
+#sudo openssl x509 -noout -in root-ca.pem -fingerprint -sha256
+#sudo keytool -keystore /etc/graylog/server/certs/cacerts -storepass changeit -list | grep elasticsearch -A1
+
+
 
 #Ajout de la CA dans la config de graylog
-vim /etc/default/graylog-server
+sudo vim /etc/default/graylog-server
 #Commenter GRAYLOG_SERVER_JAVA_OPTS="$GRAYLOG_SERVER_JAVA_OPTS -Dlog4j2.formatMsgNoLookups=true"
 #Et rajouter en dessous : 
 #GRAYLOG_SERVER_JAVA_OPTS="$GRAYLOG_SERVER_JAVA_OPTS -Dlog4j2.formatMsgNoLookups=true -Djavax.net.ssl.trustStore=/etc/graylog/server/certs/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
 
 #Génération d'un password secret : 
-pwgen -N 1 -s 96
+sudo pwgen -N 1 -s 96
 #  3VxwJFRmZdCQPtjkKUb3lFO7Ea6Hgv7ANKD4Kwxae5SoKYrSaiUdCD4BBpwo4WEuexGEau8FcmKnoBKDloPVn4XEJSw16CSc
 
 #Rajout du secret à password_secret
-vim /etc/graylog/server/server.conf
+sudo vim /etc/graylog/server/server.conf
 
+#Rajout de l'interface web modifiée : 
+#http_bind_address = 0.0.0.0:9000
+
+#Rajout du HTTPS sur l'interface web de graylog
+sudo cp /etc/wazuh-dashboard/certs/soc1* /etc/graylog/server/certs
+sudo sed -i 's|^#http_enable_tls =.*|http_enable_tls = true|' /etc/graylog/server/server.conf
+sudo sed -i 's|^#http_tls_cert_file =.*|http_tls_cert_file = /etc/graylog/server/certs/soc1.pem|' /etc/graylog/server/server.conf
+sudo sed -i 's|^#http_tls_key_file =.*|http_tls_key_file = /etc/graylog/server/certs/soc1-key.pem|' /etc/graylog/server/server.conf
+sudo chown -R graylog:graylog /etc/graylog/server/certs/
+sudo chmod 600 /etc/graylog/server/certs/*
+
+sudo keytool -importcert -keystore /etc/graylog/server/certs/cacerts -storepass changeit -alias graylog_self_signed -file /etc/graylog/server/certs/soc1.pem
 
 
 #Génération de la signature sha2 du mdp root graylog

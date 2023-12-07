@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Les valeurs doivent être remplacées par les valeurs réelles que vous souhaitez configurer
-IP_ADDRESS="192.168.1.100"
-IP_GATEWAY="192.168.1.1"
+IP_ADDRESS="192.168.0.238"
+IP_GATEWAY="192.168.0.1"
 INTERFACE="enp0s3"
 
 # Créez une sauvegarde du fichier interfaces actuel

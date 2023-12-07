@@ -8,12 +8,12 @@ nodes:
     #- name: node-3
     #  ip: "<indexer-node-ip>"
 
-  # Wazuh server nodes
+  # graylog server nodes
   # If there is more than one Wazuh server
   # node, each one must have a node_type
   server:
-    - name: soc2
-      ip: 192.168.0.236
+    - name: soc1
+      ip: 192.168.0.235
     #  node_type: master
     #- name: wazuh-2
     #  ip: "<wazuh-manager-ip>"

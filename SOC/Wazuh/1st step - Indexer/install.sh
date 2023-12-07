@@ -1,8 +1,9 @@
 sudo apt install curl -y
 
-sudo curl -sO https://packages.wazuh.com/4.3/wazuh-certs-tool.sh
-sudo curl -sO https://packages.wazuh.com/4.3/config.yml
+sudo curl -sO https://packages.wazuh.com/4.x/wazuh-certs-tool.sh
+sudo curl -sO https://packages.wazuh.com/4.x/config.yml
 
+#ATTENTION : vérifier que vous avez votre ip d'interface associée à votre nom de machine dans /etc/hosts
 #ATTENTION : Modifier fichier config.yml avec ip adéquate.
 
 sudo bash ./wazuh-certs-tool.sh -A
@@ -23,7 +24,7 @@ sudo curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | gpg --no-default-key
 sudo echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
 sudo apt-get update
 
-sudo apt-get -y install wazuh-indexer=4.3.11-1
+sudo apt-get -y install wazuh-indexer
 
 #Télécharger le fichier opensearch.yml et modifier fichier avec vos valeurs
 

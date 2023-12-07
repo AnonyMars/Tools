@@ -13,3 +13,6 @@ sudo cp ./fluent-bit.conf /etc/fluent-bit/fluent-bit.conf
 
 sudo systemctl enable fluent-bit
 sudo systemctl start fluent-bit
+
+#checker les logs fluentbit
+sudo tail -f /var/log/td-agent-bit.log
